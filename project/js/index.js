@@ -5,8 +5,17 @@ const fatchingAllData = () =>{
 }
 
 const getingData = (data) =>{
-    data.slice(0,6).forEach(datas => {
-        // console.log(datas);
+
+   const showLess=  data.slice(0,6);
+    showLess.forEach(datas => {
+        const showAllCards = document.getElementById('showAllCards');
+        if (showLess.length >= 6) {
+            
+            showAllCards.classList.remove('d-none')
+        }
+        else{
+            showAllCards.classList.add('d-none')
+        }
         const {name,image,features} = datas
        
         let cardContainer = document.getElementById('card-container');
@@ -30,7 +39,7 @@ const getingData = (data) =>{
            <p>date</p>
            </div>
            <div>
-          <a href="" class="btn btn-primary">btn</a>
+           <div> <a href="" class=" "></a> <span class="img-fluid btn btn-outline-danger rounded-circle" > <img style="width: 25px;" src="img/key.png" alt="" class="text-danger"> </span></div>
           </div>
           </div>
           </div>
