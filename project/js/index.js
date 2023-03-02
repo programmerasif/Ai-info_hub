@@ -104,9 +104,11 @@ const getDataOfModal = (id) =>{
 }
 
 const setDataOfModal = (data) =>{
-console.log(data);
-const {description,features,integrations,pricing} = data;
-console.log(features);
+
+const {description,image_link,input_output_examples,features,integrations,pricing} = data;
+console.log(image_link);
+let values = Object.values(features)
+
 let modalContainer = document.getElementById('modalContainer');
 modalContainer.innerHTML = `
                <div class="border bg-danger bg-opacity-25 border-danger rounded w-50 p-4 justify-content-center align-item-center">
@@ -134,20 +136,30 @@ modalContainer.innerHTML = `
                         <div class=" container d-flex justify-content-between">
                             <div class="w-50">
                                 <h5>Features</h5>
-                                <span class="d-block">${features}integrations</span>
-                                <span class="d-block">hello</span>
-                                <span class="d-block">hello</span>
+                                <span class="d-block fs-6">${values[0].feature_name? values[0].feature_name : 'Not Found'}</span>
+                                <span class="d-block">${values[1].feature_name ? values[1].feature_name : 'Not Found'}</span>
+                                <span class="d-block">${values[2].feature_name ? values[2].feature_name: 'Not Found'}</span>
                             </div>
-                            <div class="w-50">
+                            <div class="w-50 text-center">
                             <h5>Integrations</h5>
-                            <span class="d-block">${integrations? integrations[0]: 'nodata found'}</span>
-                            <span class="d-block">${integrations? integrations[1]: 'nodata found'}</span>
-                            <span class="d-block">${integrations? integrations[2]: 'nodata found'}</span>
+                            <span class="d-block">${integrations[0]? integrations[0]: 'Not Found'}</span>
+                            <span class="d-block">${integrations[1]? integrations[1] : 'Not Found'}</span>
+                            <span class="d-block">${integrations[2]? integrations[2] : 'Not Found'}</span>
                             </div>
                         </div>
                   </footer>
                </div>
-                <div class="border border-primary w-50"></div>
+               
+            <div class="border border-primary w-50">
+
+                <div class="card" >
+                <img src="${image_link[0]}" class="card-img-top" alt="...">
+                <div class="card-body">
+                 <h3>${input_output_examples[0].input}</h3>
+                  <p class="">${input_output_examples[0].output}</p>
+                </div>
+              </div>
+            </div>
          
 `
 }
