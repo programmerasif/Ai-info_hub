@@ -15,7 +15,7 @@ const getingData = (data) =>{
             showAllCards.classList.remove('d-none')
         }
         
-        const {name,image,features} = datas
+        const {id,name,image,features} = datas
        
         let cardContainer = document.getElementById('card-container');
         
@@ -38,7 +38,7 @@ const getingData = (data) =>{
            <p>date</p>
            </div>
            <div>
-           <div> <a href="" class=" "></a> <span class="img-fluid btn btn-outline-danger rounded-circle" > <img style="width: 25px;" src="img/key.png" alt="" class="text-danger"> </span></div>
+           <div> <span class="img-fluid btn btn-outline-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="getDataOfModal('${id}')"> <img style="width: 25px;" src="img/key.png" alt="" class="text-danger"> </span></div>
           </div>
           </div>
           </div>
@@ -56,7 +56,7 @@ const getingData = (data) =>{
         }
         data.forEach(data =>{
             spinner(true)
-            const {name,image,features} = data
+            const {id,name,image,features} = data
             
             cardContainer.innerHTML += `
         <div class="card grid col-md-4 col-12 p-3 pb-1" >
@@ -77,7 +77,7 @@ const getingData = (data) =>{
            <p>date</p>
            </div>
            <div>
-           <div> <a href="" class=" "></a> <span class="img-fluid btn btn-outline-danger rounded-circle" > <img style="width: 25px;" src="img/key.png" alt="" class="text-danger"> </span></div>
+           <div><span class="img-fluid btn btn-outline-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="getDataOfModal('${id}')"> <img style="width: 25px;" src="img/key.png" alt="" class="text-danger"> </span></div>
           </div>
           </div>
           </div>
@@ -97,6 +97,59 @@ const spinner = (isLoading) =>{
     }
 
 }
+const getDataOfModal = (id) =>{
+    fetch(`https://openapi.programming-hero.com/api/ai/tool/${id}`)
+      .then(res => res.json())
+      .then(data => setDataOfModal(data.data))
+}
 
+const setDataOfModal = (data) =>{
+console.log(data);
+const {description,features,integrations,pricing} = data;
+console.log(features);
+let modalContainer = document.getElementById('modalContainer');
+modalContainer.innerHTML = `
+               <div class="border bg-danger bg-opacity-25 border-danger rounded w-50 p-4 justify-content-center align-item-center">
+                    <h4 class="pb-3">${description}</h4>
+                    <div class="d-flex gap-4 ">
+
+                    <div class="w25 border text-center p-3 text-success bg-white rounded">
+                    <h5 class="w-2 ">${pricing[0].price ? pricing[0].price : "Free of cost"}</h5>
+                    <h5 class="w-2 ">${pricing[0].plan ? pricing[0].plan : "No data Found"}</h5>
+                    </div>
+
+                    <div class="w25 border text-center p-3 text-success bg-white rounded">
+                    <h5 class="w-2 ">${pricing[1].price ? pricing[1].price : "Free of cost"}</h5>
+                    <h5 class="w-2 ">${pricing[1].plan ? pricing[1].plan : "No data Found"}</h5>
+                    </div>
+
+
+                    <div class="w25 border text-center p-3 text-success bg-white rounded">
+                    <h5 class="w-2 ">${pricing[2].price ? pricing[2].price : "Free of cost"}</h5>
+                    <h5 class="w-2 ">${pricing[2].plan ? pricing[2].plan : "No data Found"}</h5>
+                    </div>
+                    
+                  </div>
+                  <footer class="mt-4">
+                        <div class=" container d-flex justify-content-between">
+                            <div class="w-50">
+                                <h5>Features</h5>
+                                <span class="d-block">${features}integrations</span>
+                                <span class="d-block">hello</span>
+                                <span class="d-block">hello</span>
+                            </div>
+                            <div class="w-50">
+                            <h5>Integrations</h5>
+                            <span class="d-block">${integrations? integrations[0]: 'nodata found'}</span>
+                            <span class="d-block">${integrations? integrations[1]: 'nodata found'}</span>
+                            <span class="d-block">${integrations? integrations[2]: 'nodata found'}</span>
+                            </div>
+                        </div>
+                  </footer>
+               </div>
+                <div class="border border-primary w-50"></div>
+         
+`
+}
 
 fatchingAllData()
