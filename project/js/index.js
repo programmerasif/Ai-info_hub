@@ -7,12 +7,12 @@ const fatchingAllData = () =>{
 const getingData = (data) =>{
     data.slice(0,6).forEach(datas => {
         // console.log(datas);
-        const {image,features} = datas
+        const {name,image,features} = datas
        
         let cardContainer = document.getElementById('card-container');
 
         cardContainer.innerHTML += `
-        <div class="card grid col-md-4 col-12 p-3" >
+        <div class="card grid col-md-4 col-12 p-3 pb-1" >
         <img src="${image ? image : 'no Img found'}" class="card-img-top" alt="...">
         <div class="card-body">
         <h4>Features</h4>
@@ -24,8 +24,16 @@ const getingData = (data) =>{
          </div>
 
          <hr>
-         
-        </div>
+         <div class="d-flex justify-content-between align-items-center mt-3">
+           <div>
+           <h4>${name}</h4>
+           <p>date</p>
+           </div>
+           <div>
+          <a href="" class="btn btn-primary">btn</a>
+          </div>
+          </div>
+          </div>
       </div>
         `
     });
