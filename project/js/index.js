@@ -33,7 +33,7 @@ const getingData = (data) =>{
          </div>
 
          <hr>
-         <div class="d-flex justify-content-between align-items-center mt-3">
+         <div class="d-flex justify-content-between align-items-center mt-3 position-relative">
            <div>
            <h4>${name}</h4>
            <p>${published_in}</p>
@@ -44,6 +44,7 @@ const getingData = (data) =>{
           </div>
           </div>
       </div>
+     
         `
         spinner(false) 
     });
@@ -78,6 +79,7 @@ const getingData = (data) =>{
            <div><span class="img-fluid btn btn-outline-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="getDataOfModal('${id}')"> <img style="width: 25px;" src="img/key.png" alt="" class="text-danger"> </span></div>
           </div>
           </div>
+         
           </div>
       </div>
         `
@@ -104,10 +106,10 @@ const getDataOfModal = (id) =>{
 const setDataOfModal = (data) =>{
     
 console.log(data);
-const {description,image_link,input_output_examples,features,integrations,pricing} = data;
+const {description,image_link,input_output_examples,features,integrations,pricing,accuracy} = data;
 
 let values = Object.values(features)
-
+// modal section
 let modalContainer = document.getElementById('modalContainer');
 modalContainer.innerHTML = `
                <div class="border bg-danger bg-opacity-25 border-danger rounded w-50 p-4 justify-content-center align-item-center">
@@ -149,7 +151,7 @@ modalContainer.innerHTML = `
                   </footer>
                </div>
                
-            <div class="border border-primary w-50">
+            <div class="border border-primary w-50 position-relative">
 
                 <div class="card" >
                 <img src="${image_link[0]}" class="card-img-top" alt="...">
@@ -158,9 +160,17 @@ modalContainer.innerHTML = `
                   <p class="">${input_output_examples? input_output_examples[0].output : 'not found'}</p>
                 </div>
               </div>
+              
+              <div id="accoracy" class="d-none position-absolute top-0 end-0 bg-danger px-3 py-2 text-white" ><span>${accuracy.score? accuracy.score : 'not found'}</span>% accuracy</div>
             </div>
          
 `
+if (accuracy.score) {
+    const accoracy = document.getElementById('accoracy');
+    accoracy.classList.remove('d-none')
+    
+}
+
 }
 
 fatchingAllData()
