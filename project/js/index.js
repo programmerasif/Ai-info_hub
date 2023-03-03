@@ -10,13 +10,14 @@ const getingData = (data) =>{
    const showLess=  data.slice(0,6);
     showLess.forEach(datas => {
         const showAllCards = document.getElementById('showAllCards');
+        
         if (showLess.length >= 6) {
             
             showAllCards.classList.remove('d-none')
         }
         
-        const {id,name,image,features} = datas
-       
+        const {id,name,image,published_in,features} = datas
+       console.log(published_in);
         let cardContainer = document.getElementById('card-container');
         
         cardContainer.innerHTML += `
@@ -35,7 +36,7 @@ const getingData = (data) =>{
          <div class="d-flex justify-content-between align-items-center mt-3">
            <div>
            <h4>${name}</h4>
-           <p>date</p>
+           <p>${published_in}</p>
            </div>
            <div>
            <div> <span class="img-fluid btn btn-outline-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="getDataOfModal('${id}')"> <img style="width: 25px;" src="img/key.png" alt="" class="text-danger"> </span></div>
@@ -48,15 +49,12 @@ const getingData = (data) =>{
     });
     
     document.getElementById('showMorCard').addEventListener('click',function () {
-        
+        document.getElementById('showMorCard').style.display = 'none'
         let cardContainer = document.getElementById('card-container');
         cardContainer.innerHTML = ''
-        if (data < 6) {
-            showAllCards.classList.add('d-none')
-        }
         data.forEach(data =>{
             spinner(true)
-            const {id,name,image,features} = data
+            const {id,name,image,published_in,features} = data
             
             cardContainer.innerHTML += `
         <div class="card grid col-md-4 col-12 p-3 pb-1" >
@@ -74,7 +72,7 @@ const getingData = (data) =>{
          <div class="d-flex justify-content-between align-items-center mt-3">
            <div>
            <h4>${name}</h4>
-           <p>date</p>
+           <p>${published_in}</p>
            </div>
            <div>
            <div><span class="img-fluid btn btn-outline-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="getDataOfModal('${id}')"> <img style="width: 25px;" src="img/key.png" alt="" class="text-danger"> </span></div>
@@ -104,9 +102,10 @@ const getDataOfModal = (id) =>{
 }
 
 const setDataOfModal = (data) =>{
-
+    
+console.log(data);
 const {description,image_link,input_output_examples,features,integrations,pricing} = data;
-console.log(image_link);
+
 let values = Object.values(features)
 
 let modalContainer = document.getElementById('modalContainer');
@@ -116,19 +115,19 @@ modalContainer.innerHTML = `
                     <div class="d-flex gap-4 ">
 
                     <div class="w25 border text-center p-3 text-success bg-white rounded">
-                    <h5 class="w-2 ">${pricing[0].price ? pricing[0].price : "Free of cost"}</h5>
-                    <h5 class="w-2 ">${pricing[0].plan ? pricing[0].plan : "No data Found"}</h5>
+                    <h5 class="w-2 ">${input_output_examples? pricing[0].price : 'Free of Cost/'}</h5>
+                    <h5 class="w-2 ">${input_output_examples?  pricing[0].plan  : "Basic"}</h5>
                     </div>
 
                     <div class="w25 border text-center p-3 text-success bg-white rounded">
-                    <h5 class="w-2 ">${pricing[1].price ? pricing[1].price : "Free of cost"}</h5>
-                    <h5 class="w-2 ">${pricing[1].plan ? pricing[1].plan : "No data Found"}</h5>
+                    <h5 class="w-2 ">${input_output_examples? pricing[1].price : "Free of Cost/"}</h5>
+                    <h5 class="w-2 ">${input_output_examples? pricing[1].plan : "Pro"}</h5>
                     </div>
 
 
                     <div class="w25 border text-center p-3 text-success bg-white rounded">
-                    <h5 class="w-2 ">${pricing[2].price ? pricing[2].price : "Free of cost"}</h5>
-                    <h5 class="w-2 ">${pricing[2].plan ? pricing[2].plan : "No data Found"}</h5>
+                    <h5 class="w-2 ">${input_output_examples? pricing[2].price : 'Free of Cost/'}</h5>
+                    <h5 class="w-2 ">${input_output_examples?  pricing[2].plan  : "Enterprise"}</h5>
                     </div>
                     
                   </div>
@@ -142,9 +141,9 @@ modalContainer.innerHTML = `
                             </div>
                             <div class="w-50 text-center">
                             <h5>Integrations</h5>
-                            <span class="d-block">${integrations[0]? integrations[0]: 'Not Found'}</span>
-                            <span class="d-block">${integrations[1]? integrations[1] : 'Not Found'}</span>
-                            <span class="d-block">${integrations[2]? integrations[2] : 'Not Found'}</span>
+                            <span class="d-block">${integrations? integrations[0]: 'Not Found'}</span>
+                            <span class="d-block">${integrations? integrations[1] : 'Not Found'}</span>
+                            <span class="d-block">${integrations? integrations[2] : 'Not Found'}</span>
                             </div>
                         </div>
                   </footer>
@@ -155,8 +154,8 @@ modalContainer.innerHTML = `
                 <div class="card" >
                 <img src="${image_link[0]}" class="card-img-top" alt="...">
                 <div class="card-body">
-                 <h3>${input_output_examples[0].input}</h3>
-                  <p class="">${input_output_examples[0].output}</p>
+                 <h3>${input_output_examples? input_output_examples[0].input : 'not found'}</h3>
+                  <p class="">${input_output_examples? input_output_examples[0].output : 'not found'}</p>
                 </div>
               </div>
             </div>
