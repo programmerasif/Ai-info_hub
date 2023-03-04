@@ -6,7 +6,8 @@ const fatchingAllData = () =>{
 }
 
 const getingData = (data) =>{
-
+    let datar = []
+    // console.log(datar);
    const showLess=  data.slice(0,6);
     showLess.forEach(datas => {
         const showAllCards = document.getElementById('showAllCards');
@@ -16,8 +17,14 @@ const getingData = (data) =>{
             showAllCards.classList.remove('d-none')
         }
         
-        const {id,name,image,published_in,features} = datas
-       console.log(published_in);
+        const {id,name,image,published_in,features} = datas;
+
+        console.log(published_in);
+        let dat = {published_in} 
+        datar.push(dat)
+        
+
+
         let cardContainer = document.getElementById('card-container');
         
         cardContainer.innerHTML += `
@@ -47,8 +54,18 @@ const getingData = (data) =>{
      
         `
         spinner(false) 
+        
     });
-    
+    //sorting date 
+    datar.sort(function (a,b) {
+        const aa = new Date(a.published_in)
+        const bb = new Date(b.published_in)
+        return aa-bb
+    })
+    console.log(...datar);
+
+
+
     document.getElementById('showMorCard').addEventListener('click',function () {
         document.getElementById('showMorCard').style.display = 'none'
         let cardContainer = document.getElementById('card-container');
@@ -104,8 +121,7 @@ const getDataOfModal = (id) =>{
 }
 
 const setDataOfModal = (data) =>{
-    
-console.log(data);
+
 const {description,image_link,input_output_examples,features,integrations,pricing,accuracy} = data;
 
 let values = Object.values(features)
@@ -121,13 +137,13 @@ modalContainer.innerHTML = `
                     <h5 class="w-2 ">${input_output_examples?  pricing[0].plan  : "Basic"}</h5>
                     </div>
 
-                    <div class="w25 border text-center p-3 text-success bg-white rounded">
+                    <div class="w25 border text-center p-3 text-warning bg-white rounded">
                     <h5 class="w-2 ">${input_output_examples? pricing[1].price : "Free of Cost/"}</h5>
                     <h5 class="w-2 ">${input_output_examples? pricing[1].plan : "Pro"}</h5>
                     </div>
 
 
-                    <div class="w25 border text-center p-3 text-success bg-white rounded">
+                    <div class="w25 border text-center p-3 text-danger bg-white rounded">
                     <h5 class="w-2 ">${input_output_examples? pricing[2].price : 'Free of Cost/'}</h5>
                     <h5 class="w-2 ">${input_output_examples?  pricing[2].plan  : "Enterprise"}</h5>
                     </div>
@@ -143,9 +159,9 @@ modalContainer.innerHTML = `
                             </div>
                             <div class="w-50 text-center">
                             <h5>Integrations</h5>
-                            <span class="d-block">${integrations? integrations[0]: 'Not Found'}</span>
-                            <span class="d-block">${integrations? integrations[1] : 'Not Found'}</span>
-                            <span class="d-block">${integrations? integrations[2] : 'Not Found'}</span>
+                            <span class="d-block">${integrations == undefined  ? integrations[0]: 'Not Found'}</span>
+                            <span class="d-block">${integrations == undefined  ? integrations[1] : 'Not Found'}</span>
+                            <span class="d-block">${integrations == undefined  ? integrations[2] : 'Not Found'}</span>
                             </div>
                         </div>
                   </footer>
@@ -161,7 +177,7 @@ modalContainer.innerHTML = `
                 </div>
               </div>
               
-              <div id="accoracy" class="d-none position-absolute top-0 end-0 bg-danger px-3 py-2 text-white" ><span>${accuracy.score? accuracy.score : 'not found'}</span>% accuracy</div>
+              <div id="accoracy" class="d-none position-absolute top-0 end-0 bg-danger px-3 py-2 text-white" ><span>${accuracy.score? (accuracy.score * 100) : 'not found'}</span>% accuracy</div>
             </div>
          
 `
@@ -174,3 +190,4 @@ if (accuracy.score) {
 }
 
 fatchingAllData()
+
