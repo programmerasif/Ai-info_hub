@@ -3,21 +3,11 @@ const fatchingAllData = () =>{
       .then(res => res.json())
       .then(data => getingData(data.data.tools))
       spinner(true)
-      
-}
-const forSorfatchingAllData = () =>{
-    fetch('https://openapi.programming-hero.com/api/ai/tools')
-      .then(res => res.json())
-      .then(data => sorting(data.data.tools))
-      spinner(true)
-      
 }
 
 const getingData = (data) =>{
-    
-    let datar = data
-    
-    
+    let datar = []
+    // console.log(datar);
    const showLess=  data.slice(0,6);
     showLess.forEach(datas => {
         const showAllCards = document.getElementById('showAllCards');
@@ -29,6 +19,9 @@ const getingData = (data) =>{
         
         const {id,name,image,published_in,features} = datas;
 
+        console.log(published_in);
+        let dat = {published_in} 
+        datar.push(dat)
         
 
 
@@ -43,7 +36,7 @@ const getingData = (data) =>{
          <div class="pb-2">
          <a href="" class="text-decoration-none d-block text-black">1. <span> ${features[0] ? features[0] : 'Not Available'}</span></a>
          <a href="" class="text-decoration-none d-block text-black">2. <span> ${features[1] ? features[1] : 'Not Available'}</span></a>
-         <a href="" class="text-decoration-none d-block text-black">3. <span> ${features[2] ? features[2] : 'Not Available'}</span></a>
+         <a href="" class="text-decoration-none d-block text-black">3. <span> ${features[2] ? features[3] : 'Not Available'}</span></a>
          </div>
 
          <hr>
@@ -64,7 +57,13 @@ const getingData = (data) =>{
         
     });
     //sorting date 
-    
+    datar.sort(function (a,b) {
+        const aa = new Date(a.published_in)
+        const bb = new Date(b.published_in)
+        return aa-bb
+    })
+    console.log(...datar);
+
 
 
     document.getElementById('showMorCard').addEventListener('click',function () {
@@ -84,7 +83,7 @@ const getingData = (data) =>{
          <div class="pb-2">
          <a href="" class="text-decoration-none d-block text-black">1. <span> ${features[0] ? features[0] : 'Not Available'}</span></a>
          <a href="" class="text-decoration-none d-block text-black">2. <span> ${features[1] ? features[1] : 'Not Available'}</span></a>
-         <a href="" class="text-decoration-none d-block text-black">3. <span> ${features[2] ? features[2] : 'Not Available'}</span></a>
+         <a href="" class="text-decoration-none d-block text-black">3. <span> ${features[2] ? features[3] : 'Not Available'}</span></a>
          </div>
 
          <hr>
@@ -104,7 +103,6 @@ const getingData = (data) =>{
         })
         spinner(false)
     })
-    // sorting(datar);
 }
 const spinner = (isLoading) =>{
     const spinner = document.getElementById('spinner');
@@ -161,9 +159,9 @@ modalContainer.innerHTML = `
                             </div>
                             <div class="w-50 text-center">
                             <h5>Integrations</h5>
-                            <span class="d-block">${integrations? integrations == undefined  ? 'Not Found':integrations[0]: 'not found'}</span>
-                            <span class="d-block">${integrations?integrations == undefined  ? 'Not Found':integrations[1] : 'notFound'}</span>
-                            <span class="d-block">${integrations?integrations == undefined  ? 'Not Found' :integrations[2] :'notFound'}</span>
+                            <span class="d-block">${integrations == undefined  ? integrations[0]: 'Not Found'}</span>
+                            <span class="d-block">${integrations == undefined  ? integrations[1] : 'Not Found'}</span>
+                            <span class="d-block">${integrations == undefined  ? integrations[2] : 'Not Found'}</span>
                             </div>
                         </div>
                   </footer>
@@ -192,53 +190,6 @@ if (accuracy.score) {
 }
 
 fatchingAllData()
-forSorfatchingAllData ()
-function sorting(data) {
-    
-
-    console.log(data);
-    data.sort(function (a,b) {
-        const aa = new Date(a.published_in)
-        const bb = new Date(b.published_in)
-        return aa-bb
-    })
-    
-    document.getElementById('sortBtn').addEventListener('click',function () {
-        spinner(true)
-        document.getElementById('showMorCard').style.display = 'none'
-        let cardContainer = document.getElementById('card-container');
-        cardContainer.innerHTML = ''
-        data.forEach(data =>{
-            
-            const {id,name,image,published_in,features} = data
-            
-            cardContainer.innerHTML += `
-        <div class="card grid col-md-4 col-12 p-3 pb-1" >
-        <img src="${image ? image : 'no Img found'}" class="card-img-top" alt="...">
-        <div class="card-body">
-        <h4>Features</h4>
-        
-         <div class="pb-2">
-         <a href="" class="text-decoration-none d-block text-black">1. <span> ${features[0] ? features[0] : 'Not Available'}</span></a>
-         <a href="" class="text-decoration-none d-block text-black">2. <span> ${features[1] ? features[1] : 'Not Available'}</span></a>
-         <a href="" class="text-decoration-none d-block text-black">3. <span> ${features[2] ? features[2] : 'Not Available'}</span></a>
-         </div>
-
-         <hr>
-         <div class="d-flex justify-content-between align-items-center mt-3">
-           <div>
-           <h4>${name}</h4>
-           <p>${published_in}</p>
-           </div>
-           <div>
-           <div><span class="img-fluid btn btn-outline-danger rounded-circle" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="getDataOfModal('${id}')"> <img style="width: 25px;" src="img/key.png" alt="" class="text-danger"> </span></div>
-          </div>
-          </div>
-         
-          </div>
-      </div>
-        `
-        })
-        spinner(false)
-    })
-}
+document.getElementById('sortBtn').addEventListener('click',function () {
+    console.log('btn');
+})
